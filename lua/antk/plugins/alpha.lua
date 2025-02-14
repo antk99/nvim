@@ -73,16 +73,32 @@ local function week_ascii_text()
   }
 end
 
+local neovim_logo = {
+  [[                                                                       ]],
+  [[                                                                     ]],
+  [[       ████ ██████           █████      ██                     ]],
+  [[      ███████████             █████                             ]],
+  [[      █████████ ███████████████████ ███   ███████████   ]],
+  [[     █████████  ███    █████████████ █████ ██████████████   ]],
+  [[    █████████ ██████████ █████████ █████ █████ ████ █████   ]],
+  [[  ███████████ ███    ███ █████████ █████ █████ ████ █████  ]],
+  [[ ██████  █████████████████████ ████ █████ █████ ████ ██████ ]],
+  [[                                                                       ]],
+}
+
 local function week_header(concat, append)
   local week = week_ascii_text()
   local daysoftheweek = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }
   local day = daysoftheweek[os.date("*t").wday]
-  local tbl = week[day]
-  table.insert(tbl, os.date("%Y-%m-%d %H:%M:%S ") .. (concat or ""))
-  if append then
-    vim.list_extend(tbl, append)
-  end
-  table.insert(tbl, "")
+  local tbl = neovim_logo
+
+  vim.list_extend(tbl, week[day])
+
+  -- table.insert(tbl, os.date("%Y-%m-%d %H:%M:%S ") .. (concat or ""))
+  -- if append then
+  --   vim.list_extend(tbl, append)
+  -- end
+  -- table.insert(tbl, "")
   return tbl
 end
 
@@ -94,7 +110,7 @@ return {
     local dashboard = require("alpha.themes.dashboard")
 
     -- Set header
-    dashboard.section.header.val = week_header("Welcome to Neovim")
+    dashboard.section.header.val = week_header()
 
     -- Set menu
     dashboard.section.buttons.val = {
